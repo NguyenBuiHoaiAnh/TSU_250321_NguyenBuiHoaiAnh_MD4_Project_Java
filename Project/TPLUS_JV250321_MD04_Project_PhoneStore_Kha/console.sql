@@ -1,4 +1,4 @@
-create database phone_store;
+-- create database phone_store;
 use phone_store;
 
 create table Admin
@@ -66,10 +66,10 @@ create procedure login_admin(
     in password_in varchar(255)
 )
 begin
-    select *
-    from Admin
-    where username = username_in
-      and password = password_in;
+select *
+from Admin
+where username = username_in
+  and password = password_in;
 end;
 DELIMITER &&
 
@@ -80,9 +80,11 @@ DELIMITER &&
 DELIMITER &&
 create procedure find_all_product()
 begin
-    select * from Product;
+select * from Product;
 end &&
 DELIMITER &&
+
+-- ------------------------------------------------------
 
 -- Add Product
 
@@ -92,10 +94,10 @@ create procedure check_product_is_exist(
     out is_exist int
 )
 begin
-    select count(*)
-    into is_exist
-    from product
-    where id = id_in;
+select count(*)
+into is_exist
+from product
+where id = id_in;
 end &&
 DELIMITER &&
 
@@ -103,16 +105,64 @@ DELIMITER &&
 create procedure add_product(
     name_in varchar(255),
     brand_in varchar(50),
-    price_in decimal(12,2),
+    price_in decimal(12, 2),
     stock_in int
 )
 begin
-    insert into product ( name, brand,
-                         price, stock)
-    values (name_in,
-            brand_in, price_in,
-            stock_in);
+insert into product (name, brand,
+                     price, stock)
+values (name_in,
+        brand_in, price_in,
+        stock_in);
 end;
+DELIMITER &&
+
+-- ------------------------------------------------------
+
+-- Find product by ID
+
+DELIMITER &&
+create procedure find_product_by_id(
+    in id_in int
+)
+begin
+select *
+from product
+where id = id_in;
+end &&
+DELIMITER &&
+
+-- Update Product
+
+DELIMITER &&
+create procedure update_product(
+    id_in int,
+    name_in varchar(100),
+    brand_in varchar(50),
+    price_in decimal(12, 2),
+    stock_in int
+)
+begin
+update product
+set name  = name_in,
+    brand = brand_in,
+    price = price_in,
+    stock = stock_in
+where id = id_in;
+end &&
+DELIMITER &&
+
+-- ------------------------------------------------------
+
+-- Delete Product
+DELIMITER &&
+create procedure delete_product(
+    id_in int
+)
+begin
+delete from product
+where id = id_in;
+end &&
 DELIMITER &&
 
 -- ------------------------------------------------------

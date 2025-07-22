@@ -29,7 +29,7 @@ public class ShowMainMenu {
                 case 5:
                     return true;
                 default:
-                    System.out.println("Vui lòng chọn từ 1 đến 5");
+                    System.err.println("Vui lòng chọn từ 1 đến 5");
             }
 
         } while (true);

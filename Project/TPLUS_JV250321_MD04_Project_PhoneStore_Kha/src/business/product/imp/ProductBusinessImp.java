@@ -45,5 +45,11 @@ public class ProductBusinessImp implements ProductBusiness {
         return productDAO.updateProduct(product);
     }
 
+    // Delete Product
+    @Override
+    public boolean deleteProduct(int id) {
+        return productDAO.deleteProduct(id);
+    }
+
 
 }

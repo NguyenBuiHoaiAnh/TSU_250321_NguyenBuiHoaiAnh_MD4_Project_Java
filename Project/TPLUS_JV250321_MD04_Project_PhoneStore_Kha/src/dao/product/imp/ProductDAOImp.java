@@ -158,6 +158,22 @@ public class ProductDAOImp implements ProductDAO {
     // Delete Product
     @Override
     public boolean deleteProduct(int productId) {
+        Connection conn = null;
+        CallableStatement callSt = null;
+
+        try {
+            conn = ConnectionDB.openConnection();
+            callSt = conn.prepareCall("{call delete_product(?)}");
+            callSt.setInt(1, productId);
+            callSt.executeUpdate();
+
+            return true;
+        } catch (Exception e){
+            e.printStackTrace();
+        } finally {
+            ConnectionDB.closeConnection(conn, callSt);
+        }
+
         return false;
     }
 

@@ -18,4 +18,7 @@ public interface ProductBusiness {
     Product findProductById(int id);
 
     boolean updateProduct(Product product);
+
+    // Delete Product
+    boolean deleteProduct(int id);
 }

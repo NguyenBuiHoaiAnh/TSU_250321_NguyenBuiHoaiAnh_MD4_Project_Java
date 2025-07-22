@@ -30,7 +30,7 @@ public class Main {
                     isExit = true;
                     break;
                 default:
-                    System.out.println("Vui lòng chọn từ 1 hoặc 2");
+                    System.err.println("Vui lòng chọn từ 1 hoặc 2");
             }
         } while (!isExit);
     }

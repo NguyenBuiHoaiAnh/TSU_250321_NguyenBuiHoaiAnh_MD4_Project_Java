@@ -40,10 +40,10 @@ public class AdminLogin {
 //                    }
 
                 } else {
-                    System.out.println("Sai tài khoản hoặc mật khẩu");
+                    System.err.println("Sai tài khoản hoặc mật khẩu");
                 }
             } else {
-                System.out.println("Không để trống mật khẩu hoặc password");
+                System.err.println("Không để trống mật khẩu hoặc password");
             }
         } while (true);
     }

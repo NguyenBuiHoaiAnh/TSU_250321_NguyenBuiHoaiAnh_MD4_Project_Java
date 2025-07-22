@@ -43,6 +43,7 @@ public class ProductManagement {
                     inputUpdateProduct(scanner);
                     break;
                 case 4:
+                    inputDeleteProduct(scanner);
                     break;
                 case 5:
                     break;
@@ -54,7 +55,7 @@ public class ProductManagement {
                     isExit = true;
                     break;
                 default:
-                    System.out.println("Vui lòng chọn từ 1 đến 8");
+                    System.err.println("Vui lòng chọn từ 1 đến 8");
             }
         } while (!isExit);
     }
@@ -82,7 +83,7 @@ public class ProductManagement {
         if (result) {
             System.out.println("Thêm mới thành công");
         } else {
-            System.out.println("Có lỗi trong quá trình thêm mới");
+            System.err.println("Có lỗi trong quá trình thêm mới");
         }
     }
 
@@ -93,10 +94,10 @@ public class ProductManagement {
         do {
             String name = scanner.nextLine();
             if (Validator.isEmpty(name)) {
-                System.out.println("Không để trống tên");
+                System.err.println("Không để trống tên");
             } else {
                 if (productBusiness1.checkProduct(name)) {
-                    System.out.println("Tên đã tồn tại vui lòng nhập lại");
+                    System.err.println("Tên đã tồn tại vui lòng nhập lại");
                 } else {
                     return name;
                 }
@@ -150,17 +151,33 @@ public class ProductManagement {
             if (result) {
                 System.out.println("Cập nhật thành công");
             } else {
-                System.out.println("Có lỗi trong quá trình cập nhật");
+                System.err.println("Có lỗi trong quá trình cập nhật");
             }
 
         } else {
-            System.out.println("ID không tồn tại");
+            System.err.println("ID không tồn tại");
         }
 
     }
 
     // 4. Delete Product
-    public void inputDeleteProduct(Scanner scanner) {}
+    public void inputDeleteProduct(Scanner scanner) {
+        System.out.println("Nhập ID cần xóa:");
+        int deleteId = Integer.parseInt(scanner.nextLine());
+
+        Product productById = productBusiness1.findProductById(deleteId);
+
+        if (productById != null) {
+            boolean result = productBusiness1.deleteProduct(deleteId);
+            if (result) {
+                System.out.println("Xóa hoặc cập nhật thành công");
+            } else {
+                System.err.println("Cố lỗi trong quá trình xóa");
+            }
+        }  else {
+            System.err.println("Không tồn tại sản phẩm");
+        }
+    }
 
 // ------------------------------------------------------------
 
