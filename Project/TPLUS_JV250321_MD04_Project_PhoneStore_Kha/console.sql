@@ -166,3 +166,16 @@ end &&
 DELIMITER &&
 
 -- ------------------------------------------------------
+
+-- Search By Brand
+DELIMITER &&
+create procedure find_by_product_brand(
+    brand_in varchar(50)
+)
+begin
+select * from Product
+where brand = brand_in;
+end &&
+DELIMITER &&
+
+-- ------------------------------------------------------

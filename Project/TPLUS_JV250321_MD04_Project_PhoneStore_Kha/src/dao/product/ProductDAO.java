@@ -21,4 +21,7 @@ public interface ProductDAO {
 
     // Delete Product
     boolean deleteProduct(int productId);
+
+    // Find By Brand
+    Product findProductByBrand(String Brand);
 }

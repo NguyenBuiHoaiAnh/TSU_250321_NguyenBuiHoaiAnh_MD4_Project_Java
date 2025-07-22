@@ -177,5 +177,25 @@ public class ProductDAOImp implements ProductDAO {
         return false;
     }
 
+    // Search By Brand
+    @Override
+    public Product findProductByBrand(String Brand) {
+        Connection conn = null;
+        CallableStatement callSt = null;
+        Product product = null;
 
+        try {
+            conn = ConnectionDB.openConnection();
+            callSt = conn.prepareCall("{call find_product_by_brand(?)}");
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            ConnectionDB.closeConnection(conn, callSt);
+        }
+        return product;
+    }
+
+    // Search By
 }
