@@ -58,7 +58,8 @@ create table Invoice_Details
 
 -- ------------------------------------------------------
 
--- Admin Permission
+
+-- ------------------ Admin Permission ------------------
 
 DELIMITER &&
 create procedure login_admin(
@@ -66,25 +67,29 @@ create procedure login_admin(
     in password_in varchar(255)
 )
 begin
-select *
-from Admin
-where username = username_in
-  and password = password_in;
+    select *
+    from Admin
+    where username = username_in
+      and password = password_in;
 end;
 DELIMITER &&
 
 -- ------------------------------------------------------
+
+
+-- --------------------- Product ------------------------
 
 -- Display Product
 
 DELIMITER &&
 create procedure find_all_product()
 begin
-select * from Product;
+    select * from Product;
 end &&
 DELIMITER &&
 
 -- ------------------------------------------------------
+
 
 -- Add Product
 
@@ -94,10 +99,10 @@ create procedure check_product_is_exist(
     out is_exist int
 )
 begin
-select count(*)
-into is_exist
-from product
-where id = id_in;
+    select count(*)
+    into is_exist
+    from Product
+    where id = id_in;
 end &&
 DELIMITER &&
 
@@ -109,15 +114,17 @@ create procedure add_product(
     stock_in int
 )
 begin
-insert into product (name, brand,
-                     price, stock)
-values (name_in,
-        brand_in, price_in,
-        stock_in);
+    insert into Product (name, brand,
+                         price, stock)
+    values (name_in,
+            brand_in, price_in,
+            stock_in);
 end;
 DELIMITER &&
 
+
 -- ------------------------------------------------------
+
 
 -- Find product by ID
 
@@ -126,9 +133,9 @@ create procedure find_product_by_id(
     in id_in int
 )
 begin
-select *
-from product
-where id = id_in;
+    select *
+    from Product
+    where id = id_in;
 end &&
 DELIMITER &&
 
@@ -143,39 +150,182 @@ create procedure update_product(
     stock_in int
 )
 begin
-update product
-set name  = name_in,
-    brand = brand_in,
-    price = price_in,
-    stock = stock_in
-where id = id_in;
+    update Product
+    set name  = name_in,
+        brand = brand_in,
+        price = price_in,
+        stock = stock_in
+    where id = id_in;
 end &&
 DELIMITER &&
 
+
 -- ------------------------------------------------------
 
+
 -- Delete Product
+
 DELIMITER &&
 create procedure delete_product(
     id_in int
 )
 begin
-delete from product
-where id = id_in;
+    delete
+    from Product
+    where id = id_in;
 end &&
 DELIMITER &&
 
+
 -- ------------------------------------------------------
 
+
 -- Search By Brand
+
 DELIMITER &&
 create procedure find_by_product_brand(
     brand_in varchar(50)
 )
 begin
-select * from Product
-where brand = brand_in;
+    select *
+    from Product
+    where brand = brand_in;
+end &&
+DELIMITER &&
+
+-- Search By Price Range
+
+DELIMITER &&
+create procedure find_by_product_price_range(
+    price_in decimal(12, 2),
+    price_out decimal(12, 2)
+)
+begin
+    select *
+    from Product
+    where price between price_in and price_out;
+end &&
+DELIMITER &&
+
+-- Search By Stock Available
+
+DELIMITER &&
+create procedure find_by_product_stock_available(
+    stock_in int,
+    stock_out int
+)
+begin
+    select *
+    from Product
+    where stock between stock_in and stock_out;
 end &&
 DELIMITER &&
 
 -- ------------------------------------------------------
+
+
+-- --------------------- Customer ------------------------
+
+-- Find All Customer
+
+DELIMITER &&
+create procedure find_all_customer()
+begin
+    select * from Customer;
+end &&
+DELIMITER &&
+
+-- ------------------------------------------------------
+
+-- Create Customer
+
+DELIMITER &&
+create procedure check_customer_is_exist(
+    in id_in int,
+    out is_exist int
+)
+begin
+    select count(*)
+    into is_exist
+    from Customer
+    where id = id_in;
+end &&
+DELIMITER &&
+
+DELIMITER &&
+create procedure add_customer(
+    name_in varchar(100),
+    phone_in varchar(20),
+    email_in varchar(100),
+    address_in varchar(255)
+)
+begin
+    insert into Customer(name, phone, email, address)
+    values (name_in,
+            phone_in,
+            email_in,
+            address_in);
+end &&
+DELIMITER &&
+
+-- ------------------------------------------------------
+
+-- Update Customer
+
+DELIMITER &&
+create procedure find_customer_by_id(
+    id_in int
+)
+begin
+    select *
+    from Customer
+    where id = id_in;
+end &&
+DELIMITER &&
+
+DELIMITER &&
+create procedure update_customer(
+    id_in int,
+    name_in varchar(100),
+    phone_in varchar(20),
+    email_in varchar(100),
+    address_in varchar(255)
+)
+begin
+    update Customer
+    set name    = name_in,
+        phone   = phone_in,
+        email   = email_in,
+        address = address_in
+    where id = id_in;
+end &&
+DELIMITER &&
+
+-- ------------------------------------------------------
+
+-- Delete Customer
+
+DELIMITER &&
+create procedure delete_customer(
+    id_in int
+)
+begin
+    delete
+    from Customer
+    where id = id_in;
+end &&
+DELIMITER &&
+
+-- ------------------------------------------------------
+
+
+-- ---------------------- Invoice -----------------------
+
+-- Find All Invoice
+
+DELIMITER &&
+create procedure find_all_invoice()
+begin
+    select * from Invoice;
+end &&
+DELIMITER &&

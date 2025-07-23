@@ -23,5 +23,11 @@ public interface ProductDAO {
     boolean deleteProduct(int productId);
 
     // Find By Brand
-    Product findProductByBrand(String Brand);
+    List<Product> findProductByBrand(String Brand);
+
+    // Find By Price Range
+    List<Product> searchProductByPrice(double priceIn, double priceOut);
+
+    // Find By Stock Avaiable
+    List<Product> searchProductByStock(double priceIn, double priceOut);
 }

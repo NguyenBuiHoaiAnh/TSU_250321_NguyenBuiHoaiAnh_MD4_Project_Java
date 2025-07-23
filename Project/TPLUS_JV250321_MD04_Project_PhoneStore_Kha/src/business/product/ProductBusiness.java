@@ -21,4 +21,14 @@ public interface ProductBusiness {
 
     // Delete Product
     boolean deleteProduct(int id);
+
+    // Search By Brand
+    List<Product> findProductByBrand(String Brand);
+
+    // Find By Price Range
+    List<Product> searchProductByPrice(double priceIn, double priceOut);
+
+    // Find By Stock Available
+    List<Product> searchProductByStock(double priceIn, double priceOut);
+
 }

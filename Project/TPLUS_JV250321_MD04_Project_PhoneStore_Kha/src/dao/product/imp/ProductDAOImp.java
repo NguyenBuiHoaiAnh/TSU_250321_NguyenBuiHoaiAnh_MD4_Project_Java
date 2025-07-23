@@ -179,23 +179,101 @@ public class ProductDAOImp implements ProductDAO {
 
     // Search By Brand
     @Override
-    public Product findProductByBrand(String Brand) {
+    public List<Product> findProductByBrand(String Brand) {
         Connection conn = null;
         CallableStatement callSt = null;
-        Product product = null;
+        List<Product> listProduct = null;
 
         try {
             conn = ConnectionDB.openConnection();
-            callSt = conn.prepareCall("{call find_product_by_brand(?)}");
+            callSt = conn.prepareCall("{call find_by_product_brand(?)}");
+            callSt.setString(1, Brand);
+            ResultSet rs = callSt.executeQuery();
 
+            listProduct = new ArrayList<>();
+            while (rs.next()) {
+                Product product = new Product();
+                product.setId(rs.getInt("id"));
+                product.setProductName(rs.getString("name"));
+                product.setBrand(rs.getString("brand"));
+                product.setPrice(rs.getDouble("price"));
+                product.setStock(rs.getInt("stock"));
+                listProduct.add(product);
+            }
 
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
             ConnectionDB.closeConnection(conn, callSt);
         }
-        return product;
+        return listProduct;
     }
 
-    // Search By
+    // Search By Price Range
+    @Override
+    public List<Product> searchProductByPrice(double priceIn, double priceOut) {
+        Connection conn = null;
+        CallableStatement callSt = null;
+        List<Product> listProduct = null;
+
+        try {
+            conn = ConnectionDB.openConnection();
+            callSt = conn.prepareCall("{call find_by_product_price_range(?,?)}");
+            callSt.setDouble(1, priceIn);
+            callSt.setDouble(2, priceOut);
+            ResultSet rs = callSt.executeQuery();
+
+            listProduct = new ArrayList<>();
+            while (rs.next()) {
+                Product product = new Product();
+                product.setId(rs.getInt("id"));
+                product.setProductName(rs.getString("name"));
+                product.setBrand(rs.getString("brand"));
+                product.setPrice(rs.getDouble("price"));
+                product.setStock(rs.getInt("stock"));
+                listProduct.add(product);
+            }
+
+        } catch (Exception e){
+            e.printStackTrace();
+        } finally {
+            ConnectionDB.closeConnection(conn, callSt);
+        }
+
+        return listProduct;
+    }
+
+    // Find By Stock Available
+    @Override
+    public List<Product> searchProductByStock(double priceIn, double priceOut) {
+        Connection conn = null;
+        CallableStatement callSt = null;
+        List<Product> listProduct = null;
+
+        try {
+            conn = ConnectionDB.openConnection();
+            callSt = conn.prepareCall("{call find_by_product_stock_available(?,?)}");
+            callSt.setDouble(1, priceIn);
+            callSt.setDouble(2, priceOut);
+            ResultSet rs = callSt.executeQuery();
+
+            listProduct = new ArrayList<>();
+            while (rs.next()) {
+                Product product = new Product();
+                product.setId(rs.getInt("id"));
+                product.setProductName(rs.getString("name"));
+                product.setBrand(rs.getString("brand"));
+                product.setPrice(rs.getDouble("price"));
+                product.setStock(rs.getInt("stock"));
+                listProduct.add(product);
+            }
+
+        } catch (Exception e){
+            e.printStackTrace();
+        } finally {
+            ConnectionDB.closeConnection(conn, callSt);
+        }
+
+        return listProduct;
+    }
 }

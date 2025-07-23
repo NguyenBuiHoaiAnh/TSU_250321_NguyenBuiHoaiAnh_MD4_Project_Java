@@ -51,5 +51,22 @@ public class ProductBusinessImp implements ProductBusiness {
         return productDAO.deleteProduct(id);
     }
 
+    // Search By Brand
+    @Override
+    public List<Product> findProductByBrand(String Brand) {
+        return productDAO.findProductByBrand(Brand);
+    }
+
+    // Find By Price Range
+    @Override
+    public List<Product> searchProductByPrice(double priceIn, double priceOut) {
+        return productDAO.searchProductByPrice(priceIn, priceOut);
+    }
+
+    // Find By Stock Avaiable
+    @Override
+    public List<Product> searchProductByStock(double priceIn, double priceOut) {
+        return productDAO.searchProductByStock(priceIn, priceOut);
+    }
 
 }
