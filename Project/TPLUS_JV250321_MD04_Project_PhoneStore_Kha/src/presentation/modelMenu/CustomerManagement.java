@@ -58,15 +58,13 @@ public class CustomerManagement {
     public void inputAddCustomer(Scanner scanner) {
         Customer customer = new Customer();
 
-        System.out.println("Nhập vào tên:");
-        customer.setName(scanner.nextLine());
-        System.out.println("Nhập vào số điện thoại:");
-        customer.setPhone(scanner.nextLine());
+        customer.setName(inputCustomerName(scanner));
+
+        customer.setPhone(inputCustomerPhone(scanner));
 
         customer.setEmail(inputCustomerEmail(scanner));
 
-        System.out.println("Nhập vào địa chỉ:");
-        customer.setAddress(scanner.nextLine());
+        customer.setAddress(inputCustomerAddress(scanner));
 
         boolean result = customerBusiness.addCustomer(customer);
 
@@ -94,6 +92,17 @@ public class CustomerManagement {
         } while (true);
     }
 
+    public String inputCustomerName(Scanner scanner) {
+        return Validator.inputNotEmptyData(scanner, "Nhập vào tên:");
+    }
+
+    public String inputCustomerPhone(Scanner scanner) {
+        return Validator.inputNotEmptyData(scanner, "Nhập vào số điện thoại:");
+    }
+
+    public String inputCustomerAddress(Scanner scanner) {
+        return Validator.inputNotEmptyData(scanner,"Nhập vào địa chỉ:");
+    }
 
     // --------------------------------------------------------------
 
@@ -117,19 +126,16 @@ public class CustomerManagement {
 
                 switch (choice) {
                     case 1:
-                        System.out.println("Nhập vào tên:");
-                        customerById.setName(scanner.nextLine());
+                        customerById.setName(inputCustomerName(scanner));;
                         break;
                     case 2:
-                        System.out.println("Nhập vào số điện thoại:");
-                        customerById.setPhone(scanner.nextLine());
+                        customerById.setPhone(inputCustomerPhone(scanner));
                         break;
                     case 3:
                         customerById.setEmail(inputCustomerEmail(scanner));
                         break;
                     case 4:
-                        System.out.println("Nhập vào địa chỉ:");
-                        customerById.setAddress(scanner.nextLine());
+                        customerById.setAddress(inputCustomerAddress(scanner));
                         break;
                     case 5:
                         isExit = false;

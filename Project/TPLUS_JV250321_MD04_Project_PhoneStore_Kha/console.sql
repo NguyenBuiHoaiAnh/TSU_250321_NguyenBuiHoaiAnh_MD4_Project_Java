@@ -240,7 +240,20 @@ DELIMITER &&
 -- Create Customer
 
 DELIMITER &&
-create procedure check_customer_is_exist(
+create procedure check_customer_email_is_exist(
+    in email_in int,
+    out is_exist int
+)
+begin
+    select count(*)
+    into is_exist
+    from Customer
+    where email = email_in;
+end &&
+DELIMITER &&
+
+DELIMITER &&
+create procedure check_customer_name_is_exist(
     in id_in int,
     out is_exist int
 )
@@ -326,6 +339,77 @@ DELIMITER &&
 DELIMITER &&
 create procedure find_all_invoice()
 begin
-    select * from Invoice;
+    select c.name, i.*
+    from Invoice i
+             inner join Customer c on i.customer_id = c.id;
 end &&
 DELIMITER &&
+
+-- ------------------------------------------------------
+
+-- Add Invoice
+
+DELIMITER &&
+create procedure add_invoice(
+    customer_id_in int,
+    created_at_in datetime
+)
+begin
+
+
+    insert into Invoice(customer_id, created_at, total_amount)
+    values (customer_id_in,
+            created_at_in,
+            0);
+end &&
+DELIMITER &&
+
+-- ------------------------------------------------------
+
+-- Search Invoice
+
+DELIMITER &&
+create procedure find_invoice_by_customer_name(
+    customer_name_in varchar(100)
+)
+begin
+    select c.name, i.*
+    from Invoice as i
+             inner join Customer as c on i.customer_id = c.id
+    where c.name = customer_name_in;
+end &&
+DELIMITER &&
+
+DELIMITER &&
+create procedure find_invoice_by_date(
+    date_in date
+)
+begin
+    select *
+    from Invoice
+    where day(created_at) = day(date_in) and
+          month(created_at) = month(date_in) and
+          year(created_at) = year(date_in);
+end &&
+DELIMITER &&
+
+-- ------------------------------------------------------
+
+
+-- ------------------ Invoice Details -------------------
+
+-- Total Amount By Day
+
+DELIMITER &&
+create procedure total_amount_by_day(
+    day_in date
+)
+begin
+
+end &&
+DELIMITER &&
+
+
+-- Total Amount By Month
+
+-- Total Amount By Year

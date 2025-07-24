@@ -1,22 +1,25 @@
 package model;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class Invoice {
     private int id;
     private int customerId;
     private LocalDateTime dateTime;
     private double totalAmount;
+    private String customerName;
 
     public Invoice() {
     }
 
-    public Invoice(int id, int customerId, LocalDateTime dateTime, double totalAmount) {
-        this.id = id;
-        this.customerId = customerId;
-        this.dateTime = dateTime;
-        this.totalAmount = totalAmount;
-    }
+//    public Invoice(int id, int customerId, LocalDateTime dateTime, double totalAmount) {
+//        this.id = id;
+//        this.customerId = customerId;
+//        this.dateTime = dateTime;
+//        this.totalAmount = totalAmount;
+//    }
+
 
     // ---------------------- Getter and Setter ----------------------------
 
@@ -53,11 +56,25 @@ public class Invoice {
         this.totalAmount = totalAmount;
     }
 
+    public String getCustomerName() {
+        return customerName;
+    }
+
+    public void setCustomerName(String customerName) {
+        this.customerName = customerName;
+    }
+
     // -----------------------------------------------------------------
 
     @Override
     public String toString() {
-        return String.format("ID: %d, Customer Id: %d, Created At: %s, Total Amount: %.2f",
-                this.id, this.customerId, this.dateTime, this.totalAmount);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+        String formattedDate = this.dateTime.format(formatter);
+
+        return String.format("ID: %d, Customer Name: %s, Customer Id: %d," +
+                             " Created At: %s, Total Amount: %.2f",
+                this.id, this.customerName, this.customerId, formattedDate, this.totalAmount);
     }
+
+
 }

@@ -1,13 +1,15 @@
 package validate;
 
+import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
 public class Validator {
     public static boolean isEmpty(String data) {
-        if (data != null && !data.trim().isEmpty()) {
-            return false;
-        }
-        return true;
+//        if (data != null && !data.trim().isEmpty()) {
+//            return false;
+//        }
+//        return true;
+        return data == null || data.trim().isEmpty();
     }
 
     public static boolean isInteger(String data) {
@@ -29,5 +31,19 @@ public class Validator {
             System.out.println("Vui lòng nhập số nguyên");
         } while (true);
     }
+
+    public static String inputNotEmptyData(Scanner scanner, String message) {
+        System.out.println(message);
+        do {
+            String input = scanner.nextLine();
+            if (isEmpty(input)) {
+                System.out.println("Chưa nhập dữ liệu, xin hãy nhập dữ liệu:");
+            } else {
+                return input;
+            }
+        } while (true);
+    }
+
+    public static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
 
 }

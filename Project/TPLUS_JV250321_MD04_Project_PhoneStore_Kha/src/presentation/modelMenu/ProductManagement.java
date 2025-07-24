@@ -31,7 +31,7 @@ public class ProductManagement {
             System.out.println("7. Tìm kiếm theo tồn kho");
             System.out.println("8. Quay lại Menu");
             System.out.println("==========================================");
-            int choice = Validator.inputValidInteger(scanner,"Nhập lựa chọn: ");
+            int choice = Validator.inputValidInteger(scanner, "Nhập lựa chọn: ");
 
             switch (choice) {
                 case 1:
@@ -75,12 +75,11 @@ public class ProductManagement {
 
         product.setProductName(inputProductName(scanner));
 
-        System.out.println("Nhập vào hãng sản phẩm:");
-        product.setBrand(scanner.nextLine());
-        System.out.println("Nhập vào giá sản phẩm:");
-        product.setPrice(Double.parseDouble(scanner.nextLine()));
-        System.out.println("Nhập vào số lượng:");
-        product.setStock(Integer.parseInt(scanner.nextLine()));
+        product.setBrand(inputProductBrand(scanner));
+
+        product.setPrice(Double.parseDouble(inputProductPrice(scanner)));
+
+        product.setStock(Integer.parseInt(inputProductStock(scanner)));
 
         boolean result = productBusiness1.addProduct(product);
 
@@ -109,6 +108,17 @@ public class ProductManagement {
         } while (true);
     }
 
+    public String inputProductBrand(Scanner scanner) {
+        return Validator.inputNotEmptyData(scanner,"Nhập vào hãng sản phẩm:");
+    }
+
+    public String inputProductPrice(Scanner scanner) {
+        return Validator.inputNotEmptyData(scanner,"Nhập vào giá sản phẩm:");
+    }
+
+    public String inputProductStock(Scanner scanner) {
+        return Validator.inputNotEmptyData(scanner,"Nhập vào số lượng:");
+    }
 
     // -----------------------------------------------------------
 
@@ -136,16 +146,13 @@ public class ProductManagement {
                         productById.setProductName(inputProductName(scanner));
                         break;
                     case 2:
-                        System.out.println("Nhập vào hãng:");
-                        productById.setBrand(scanner.nextLine());
+                        productById.setBrand(inputProductBrand(scanner));
                         break;
                     case 3:
-                        System.out.println("Nhập vào giá:");
-                        productById.setPrice(Integer.parseInt(scanner.nextLine()));
+                        productById.setPrice(Double.parseDouble(inputProductPrice(scanner)));
                         break;
                     case 4:
-                        System.out.println("Nhập vào số lượng:");
-                        productById.setStock(Integer.parseInt(scanner.nextLine()));
+                        productById.setStock(Integer.parseInt(inputProductStock(scanner)));
                         break;
                     case 5:
                         isExit = true;
@@ -200,14 +207,10 @@ public class ProductManagement {
         if (!listproduct.isEmpty()) {
 
 //            for (Product product : listproduct) {
-//                if (product != null) {
-//                    System.out.println(product);
-//                }
+//                System.out.println(product);
 //            }
 
-            listproduct.stream()
-                    .filter(Objects::nonNull)
-                    .forEach(System.out::println);
+            listproduct.forEach(System.out::println);
         } else {
             System.out.println("Không tìm thấy sản phẩm");
         }
