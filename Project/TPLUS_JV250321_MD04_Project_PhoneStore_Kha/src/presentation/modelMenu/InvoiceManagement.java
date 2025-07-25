@@ -4,25 +4,35 @@ import business.customer.CustomerBusiness;
 import business.customer.imp.CustomerBusinessImp;
 import business.invoice.InvoiceBusiness;
 import business.invoice.imp.InvoiceBusinessImp;
+import business.invoiceDetails.InvoiceDetailsBusiness;
+import business.invoiceDetails.imp.InvoiceDetailsBusinessImp;
+import business.product.ProductBusiness;
+import business.product.imp.ProductBusinessImp;
 import model.Invoice;
+import model.InvoiceDetails;
 import validate.Validator;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 public class InvoiceManagement {
     private InvoiceBusiness invoiceBusiness;
     private CustomerBusiness customerBusiness;
+    private ProductBusiness productBusiness;
+    private InvoiceDetailsBusiness invoiceDetailsBusiness;
 
     public InvoiceManagement() {
         invoiceBusiness = new InvoiceBusinessImp();
         customerBusiness = new CustomerBusinessImp();
+        productBusiness = new ProductBusinessImp();
+        invoiceDetailsBusiness = new InvoiceDetailsBusinessImp();
     }
 
-    public void InvoiceManagement(Scanner scanner) {
+    public void InvoiceManagementMenu(Scanner scanner) {
 
         boolean isExit = true;
         do {
@@ -63,8 +73,7 @@ public class InvoiceManagement {
         invoice.setCustomerId(inputCustomerId(scanner));
 
 //        inputDateTimeValidate(scanner, invoice);
-
-        invoice.setTotalAmount(Double.parseDouble(inputTotalAmount(scanner)));
+//        invoice.setTotalAmount(Double.parseDouble(inputTotalAmount(scanner)));
 
         boolean result = invoiceBusiness.addInvoice(invoice);
         if (result) {
@@ -72,31 +81,14 @@ public class InvoiceManagement {
             // Thêm invoice detail ở đây
             // invoice.getId
             // tự nhập productId,quantity,unitPrice
+            inputBatchInvoicesDetails(scanner, invoice);
+
         } else {
             System.out.println("Có lỗi trong quá trình thêm mới");
         }
     }
 
     // 2.2. Input Validate
-
-    public int inputCustomerId(Scanner scanner) {
-        customerBusiness.findAll().forEach(System.out::println);
-
-        System.out.println("Nhập vào ID khách hàng (invoiceCustomerId):");
-        do {
-            String customerId = scanner.nextLine();
-            if (Validator.isEmpty(customerId)) {
-                System.out.println("Không để trống ID");
-            } else {
-                if (invoiceBusiness.checkCustomerID(Integer.parseInt(customerId))) {
-                    return Integer.parseInt(customerId);
-                } else {
-                    System.out.println("Không tồn tại ID");
-                }
-            }
-        } while (true);
-    }
-
     // DateTime
 
 //    public String inputDateTime(Scanner scanner) {
@@ -116,8 +108,31 @@ public class InvoiceManagement {
 
     // -----------------------------
 
-    public String inputTotalAmount(Scanner scanner) {
-        return Validator.inputNotEmptyData(scanner, "Nhập vào tổng tiền:");
+//    public String inputTotalAmount(Scanner scanner) {
+//        return Validator.inputNotEmptyData(scanner, "Nhập vào tổng tiền:");
+//    }
+
+
+    public int inputCustomerId(Scanner scanner) {
+        customerBusiness.findAll().forEach(System.out::println);
+
+        System.out.println("Nhập vào ID khách hàng (invoiceCustomerId):");
+        do {
+            String customerId = scanner.nextLine();
+            if (Validator.isEmpty(customerId)) {
+                System.out.println("Không để trống ID");
+            } else {
+                try {
+                    if (invoiceBusiness.checkCustomerID(Integer.parseInt(customerId))) {
+                        return Integer.parseInt(customerId);
+                    }
+                    System.out.println("Không tồn tại ID");
+
+                } catch (Exception e) {
+                    System.out.println("Không đúng định dạng số nguyên");
+                }
+            }
+        } while (true);
     }
 
 
@@ -191,5 +206,63 @@ public class InvoiceManagement {
     }
 
 // -----------------------------------------------------------------------------
+
+
+// 4. Add Batch Invoice Details
+
+    public void inputBatchInvoicesDetails(Scanner scanner, Invoice invoice) {
+        List<InvoiceDetails> invoiceDetailsList = new ArrayList<>();
+        System.out.println("Nhập vào số lượng chi tiết hóa đơn cần thêm mới:");
+        int cntInDe = Integer.parseInt(scanner.nextLine());
+
+        System.out.println("============= Invoices Details ==============");
+        for (int i = 0; i < cntInDe; i++) {
+            InvoiceDetails invoiceDetails = new InvoiceDetails();
+
+            invoiceDetails.setInvoiceId(invoice.getId());
+            invoiceDetails.setProductId(inputProductIdInDe(scanner));
+
+            // Cần modify thêm
+            invoiceDetails.setQuantity(Validator.inputValidInteger(scanner, "Nhập số lượng sản phẩm (quantity):"));
+
+//            System.out.println("Nhập số lượng sản phẩm (quantity):");
+//            invoiceDetails.setQuantity(Integer.parseInt(scanner.nextLine()));
+
+            System.out.println("Nhập giá sản phẩm:");
+            invoiceDetails.setUnitPrice(Double.parseDouble(scanner.nextLine()));
+
+            invoiceDetailsList.add(invoiceDetails);
+        }
+
+        boolean result = invoiceDetailsBusiness.addInvoiceDetails(invoiceDetailsList);
+        if (result) {
+            System.out.println("Thêm mới thành công");
+        } else {
+            System.out.println("Có lỗi khi thêm mới");
+        }
+    }
+
+    public int inputProductIdInDe(Scanner scanner) {
+        productBusiness.findAll().forEach(System.out::println);
+
+        System.out.println("Nhập vào mã sản phẩm");
+        do {
+            String choice = scanner.nextLine();
+            if (Validator.isEmpty(choice)) {
+                System.out.println("Không để trống dữ liệu");
+            } else {
+                int result = Integer.parseInt(choice);
+                if (invoiceDetailsBusiness.checkProductId(result)) {
+                    return result;
+                } else {
+                    System.out.println("Không tồn tại dữ liệu");
+                }
+            }
+        } while (true);
+
+    }
+
+// ----------------------------------------------------------------------------------------
+
 
 }

@@ -3,6 +3,7 @@ package presentation.mainMenu;
 import presentation.modelMenu.CustomerManagement;
 import presentation.modelMenu.InvoiceManagement;
 import presentation.modelMenu.ProductManagement;
+import presentation.modelMenu.StatiticManagement;
 import validate.Validator;
 
 import java.util.Scanner;
@@ -13,6 +14,7 @@ public class ShowMainMenu {
         ProductManagement productManagement = new ProductManagement();
         CustomerManagement customerManagement = new CustomerManagement();
         InvoiceManagement invoiceManagement = new InvoiceManagement();
+        StatiticManagement statiticManagement = new StatiticManagement();
 
 
         do {
@@ -28,15 +30,16 @@ public class ShowMainMenu {
 
             switch (choice) {
                 case 1:
-                    productManagement.ProductManagement(scanner);
+                    productManagement.ProductManagementMenu(scanner);
                     break;
                 case 2:
-                    customerManagement.CustomerManagement(scanner);
+                    customerManagement.CustomerManagementMenu(scanner);
                     break;
                 case 3:
-                    invoiceManagement.InvoiceManagement(scanner);
+                    invoiceManagement.InvoiceManagementMenu(scanner);
                     break;
                 case 4:
+                    statiticManagement.StatiticManagementMenu(scanner);
                     break;
                 case 5:
                     return true;

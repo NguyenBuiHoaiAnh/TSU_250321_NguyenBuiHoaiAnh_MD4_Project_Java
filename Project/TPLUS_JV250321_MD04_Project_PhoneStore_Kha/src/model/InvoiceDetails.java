@@ -58,7 +58,7 @@ public class InvoiceDetails {
 
     @Override
     public String toString() {
-        return String.format("ID: %d, InvoiceId: %d, ProductId: %d," +
+        return String.format("ID: %d, InvoiceId: %d, ProductId: %d" +
                              " Quantity: %d, UnitPrice: %.2f",
                 this.id, this.invoiceId, this.productId,
                 this.quantity, this.unitPrice);
