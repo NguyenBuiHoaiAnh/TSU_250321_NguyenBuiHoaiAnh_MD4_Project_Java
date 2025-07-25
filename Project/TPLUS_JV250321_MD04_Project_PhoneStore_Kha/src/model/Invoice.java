@@ -1,5 +1,7 @@
 package model;
 
+import validate.Validator;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -68,12 +70,11 @@ public class Invoice {
 
     @Override
     public String toString() {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
-        String formattedDate = this.dateTime.format(formatter);
-
         return String.format("ID: %d, Customer Name: %s, Customer Id: %d," +
                              " Created At: %s, Total Amount: %.2f",
-                this.id, this.customerName, this.customerId, formattedDate, this.totalAmount);
+                this.id, this.customerName, this.customerId,
+                this.dateTime.format(Validator.formatter),
+                this.totalAmount);
     }
 
 

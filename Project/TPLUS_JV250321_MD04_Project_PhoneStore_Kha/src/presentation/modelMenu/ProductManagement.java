@@ -17,7 +17,7 @@ public class ProductManagement {
         productBusiness1 = new ProductBusinessImp();
     }
 
-    public void ProductManagement(Scanner scanner) {
+    public void ProductManagementMenu(Scanner scanner) {
 
         boolean isExit = false;
         do {

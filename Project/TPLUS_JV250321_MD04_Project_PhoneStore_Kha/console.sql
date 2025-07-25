@@ -94,7 +94,20 @@ DELIMITER &&
 -- Add Product
 
 DELIMITER &&
-create procedure check_product_is_exist(
+create procedure check_product_name_is_exist(
+    name_in int,
+    out is_exist int
+)
+begin
+    select count(*)
+    into is_exist
+    from Product
+    where name = name_in;
+end &&
+DELIMITER &&
+
+DELIMITER &&
+create procedure check_product_id_is_exist(
     id_in int,
     out is_exist int
 )
@@ -387,9 +400,9 @@ create procedure find_invoice_by_date(
 begin
     select *
     from Invoice
-    where day(created_at) = day(date_in) and
-          month(created_at) = month(date_in) and
-          year(created_at) = year(date_in);
+    where day(created_at) = day(date_in)
+      and month(created_at) = month(date_in)
+      and year(created_at) = year(date_in);
 end &&
 DELIMITER &&
 
@@ -398,18 +411,85 @@ DELIMITER &&
 
 -- ------------------ Invoice Details -------------------
 
--- Total Amount By Day
+-- Add Invoice Details
 
 DELIMITER &&
-create procedure total_amount_by_day(
-    day_in date
+create procedure check_quantity_vs_product_stock(
+    quantity_in int,
+    product_stock_in int
 )
 begin
 
 end &&
 DELIMITER &&
 
+DELIMITER &&
+create procedure add_invoice_details(
+    invoice_id_in int,
+    product_id_in int,
+    quantity_in int,
+    unit_price_in decimal(12, 2)
+)
+begin
+    IF exists(select 1
+              from Invoice_Details
+              where product_id = product_id_in
+                and invoice_id = invoice_id_in) THEN
+
+        -- Nếu đã có thì cập nhật
+        update Invoice_Details
+        set quantity   = quantity + quantity_in,
+            unit_price = unit_price_in
+        where product_id = product_id_in
+          and invoice_id = invoice_id_in;
+
+    ELSE
+
+        -- Nếu chưa có thì thêm mới
+        insert into Invoice_Details(invoice_id, product_id, quantity, unit_price)
+        values (invoice_id_in,
+                product_id_in,
+                quantity_in,
+                unit_price_in);
+
+        update Invoice
+        set total_amount = quantity_in * unit_price_in
+        where id = invoice_id_in;
+
+    END IF;
+end &&
+DELIMITER &&
+
+-- Total Amount By Day
+
+DELIMITER &&
+create procedure statitic_total_amount_by_day(
+    day_in date
+)
+begin
+    select date(created_at), sum(total_amount)
+    from Invoice
+    where date(created_at) = day_in
+    group by date(created_at);
+end &&
+DELIMITER &&
+
+call statitic_total_amount_by_day('2000/07/21');
 
 -- Total Amount By Month
+
+DELIMITER &&
+create procedure statitic_total_amount_by_day(
+    month_in int,
+    year_in int
+)
+begin
+    select date(created_at), sum(total_amount)
+    from Invoice
+    where month(created_at) = month_in
+      and year(created_at) = year_in
+    group by date(created_at);
+end &&
+DELIMITER &&
 
 -- Total Amount By Year

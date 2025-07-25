@@ -1,5 +1,6 @@
 package validate;
 
+import javax.swing.text.DateFormatter;
 import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
@@ -22,7 +23,7 @@ public class Validator {
     }
 
     public static int inputValidInteger(Scanner scanner, String message) {
-        System.out.print(message);
+        System.out.println(message);
         do {
             String input = scanner.nextLine();
             if (isInteger(input)) {
@@ -45,5 +46,7 @@ public class Validator {
     }
 
     public static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+
+    public static final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
 }

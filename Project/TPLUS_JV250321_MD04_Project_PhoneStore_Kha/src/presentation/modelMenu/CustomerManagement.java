@@ -17,7 +17,7 @@ public class CustomerManagement {
         customerBusiness = new CustomerBusinessImp();
     }
 
-    public void CustomerManagement(Scanner scanner) {
+    public void CustomerManagementMenu(Scanner scanner) {
         boolean isExit = true;
         do {
             System.out.println("=========== QUẢN LÍ KHÁCH HÀNG ==========");
