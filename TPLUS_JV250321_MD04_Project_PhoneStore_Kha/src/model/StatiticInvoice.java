@@ -7,6 +7,9 @@ import java.time.format.DateTimeFormatter;
 
 public class StatiticInvoice {
     private LocalDate date;
+
+    private int month;
+    private int year;
     private double totalAmount;
 
     public StatiticInvoice() {
@@ -30,8 +33,35 @@ public class StatiticInvoice {
         this.totalAmount = totalAmount;
     }
 
+
+    public int getMonth() {
+        return month;
+    }
+
+    public void setMonth(int month) {
+        this.month = month;
+    }
+
+    public int getYear() {
+        return year;
+    }
+
+    public void setYear(int year) {
+        this.year = year;
+    }
+
     // ---------------------------------------------------
 
+
+    public String displayTotalAmountByMonth() {
+        return String.format("Date: %s/%s, TotalAmount: %.2f%n",
+                this.month, this.year, this.totalAmount);
+    }
+
+    public String displayTotalAmountByYear() {
+        return String.format("Date: %s, TotalAmount: %.2f%n",
+                this.year, this.totalAmount);
+    }
 
     @Override
     public String toString() {

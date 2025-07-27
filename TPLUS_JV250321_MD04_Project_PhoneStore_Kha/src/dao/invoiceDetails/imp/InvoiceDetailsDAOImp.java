@@ -23,7 +23,7 @@ public class InvoiceDetailsDAOImp implements InvoiceDetailsDAO {
 
         try {
             conn = ConnectionDB.openConnection();
-            callSt = conn.prepareCall("{call check_product_id_is_exist(?)}");
+            callSt = conn.prepareCall("{call check_product_id_is_exist(?,?)}");
             callSt.setInt(1, id);
             callSt.registerOutParameter(2, Types.INTEGER);
             callSt.execute();
@@ -107,20 +107,63 @@ public class InvoiceDetailsDAOImp implements InvoiceDetailsDAO {
 
     // Statitic Total Amount By Month
     @Override
-    public List<StatiticInvoice> statiticTotalAmountByMonth(int month) {
+    public List<StatiticInvoice> statiticTotalAmountByMonth(int month,int year) {
         Connection conn = null;
         CallableStatement callSt = null;
+        List<StatiticInvoice> statiticInvoiceList = null;
 
         try {
             conn = ConnectionDB.openConnection();
+            callSt = conn.prepareCall("{call statitic_total_amount_by_month(?,?)}");
+            callSt.setInt(1, month);
+            callSt.setInt(2, year);
+            ResultSet rs = callSt.executeQuery();
 
+            statiticInvoiceList = new ArrayList<>();
+            while (rs.next()) {
+                StatiticInvoice statiticInvoice = new StatiticInvoice();
+                statiticInvoice.setMonth(rs.getInt("month(created_at)"));
+                statiticInvoice.setYear(rs.getInt("year(created_at)"));
+                statiticInvoice.setTotalAmount(rs.getDouble("sum(total_amount)"));
+                statiticInvoiceList.add(statiticInvoice);
+            }
 
         } catch (Exception e){
             e.printStackTrace();
         } finally {
             ConnectionDB.closeConnection(conn, callSt);
         }
-        return null;
+        return statiticInvoiceList;
+    }
+
+    // Statitic Total Amount By Year
+    @Override
+    public List<StatiticInvoice> statiticTotalAmountByYear(int year) {
+        Connection conn = null;
+        CallableStatement callSt = null;
+        List<StatiticInvoice> statiticInvoiceList = null;
+
+        try {
+            conn = ConnectionDB.openConnection();
+            callSt = conn.prepareCall("{call statitic_total_amount_by_year(?)}");
+            callSt.setInt(1, year);
+            ResultSet rs = callSt.executeQuery();
+
+            statiticInvoiceList = new ArrayList<>();
+            while (rs.next()) {
+                StatiticInvoice statiticInvoice = new StatiticInvoice();
+                statiticInvoice.setYear(rs.getInt("year(created_at)"));
+                statiticInvoice.setTotalAmount(rs.getDouble("sum(total_amount)"));
+                statiticInvoiceList.add(statiticInvoice);
+            }
+
+        } catch (Exception e){
+            e.printStackTrace();
+        } finally {
+            ConnectionDB.closeConnection(conn, callSt);
+        }
+
+        return statiticInvoiceList;
     }
 
 

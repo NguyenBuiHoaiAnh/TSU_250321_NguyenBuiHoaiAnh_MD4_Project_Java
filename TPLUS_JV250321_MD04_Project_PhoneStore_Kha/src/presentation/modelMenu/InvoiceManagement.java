@@ -148,7 +148,7 @@ public class InvoiceManagement {
             System.out.println("1. Tìm kiếm hóa đơn theo tên khách hàng");
             System.out.println("2. Tìm kiếm hóa đơn theo ngày tháng năm (dd/MM/yyyy)");
             System.out.println("3. Quay lại menu hóa đơn");
-            int choice = Validator.inputValidInteger(scanner, "Chọn:\n");
+            int choice = Validator.inputValidInteger(scanner, "Chọn:");
             switch (choice) {
                 case 1:
                     inputSearchInvoiceByName(scanner);
@@ -220,16 +220,22 @@ public class InvoiceManagement {
             InvoiceDetails invoiceDetails = new InvoiceDetails();
 
             invoiceDetails.setInvoiceId(invoice.getId());
+
             invoiceDetails.setProductId(inputProductIdInDe(scanner));
 
+
             // Cần modify thêm
-            invoiceDetails.setQuantity(Validator.inputValidInteger(scanner, "Nhập số lượng sản phẩm (quantity):"));
+            invoiceDetails.setQuantity(Validator
+                    .inputValidInteger(scanner,"Nhập số lượng sản phẩm (quantity):"));
 
 //            System.out.println("Nhập số lượng sản phẩm (quantity):");
 //            invoiceDetails.setQuantity(Integer.parseInt(scanner.nextLine()));
 
             System.out.println("Nhập giá sản phẩm:");
             invoiceDetails.setUnitPrice(Double.parseDouble(scanner.nextLine()));
+
+            // -------------------------------------------------------------------
+
 
             invoiceDetailsList.add(invoiceDetails);
         }
@@ -253,7 +259,11 @@ public class InvoiceManagement {
             } else {
                 int result = Integer.parseInt(choice);
                 if (invoiceDetailsBusiness.checkProductId(result)) {
-                    return result;
+                    try {
+                        return result;
+                    } catch (Exception e) {
+                        System.out.println("Lỗi định dạng");
+                    }
                 } else {
                     System.out.println("Không tồn tại dữ liệu");
                 }

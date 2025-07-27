@@ -413,15 +413,16 @@ DELIMITER &&
 
 -- Add Invoice Details
 
-DELIMITER &&
-create procedure check_quantity_vs_product_stock(
-    quantity_in int,
-    product_stock_in int
-)
-begin
 
-end &&
-DELIMITER &&
+# DELIMITER &&
+# create procedure check_quantity_vs_product_stock(
+#     quantity_in int,
+#     product_stock_in int
+# )
+# begin
+#
+# end &&
+# DELIMITER &&
 
 DELIMITER &&
 create procedure add_invoice_details(
@@ -479,17 +480,29 @@ call statitic_total_amount_by_day('2000/07/21');
 -- Total Amount By Month
 
 DELIMITER &&
-create procedure statitic_total_amount_by_day(
+create procedure statitic_total_amount_by_month(
     month_in int,
     year_in int
 )
 begin
-    select date(created_at), sum(total_amount)
+    select month(created_at), year(created_at), sum(total_amount)
     from Invoice
     where month(created_at) = month_in
       and year(created_at) = year_in
-    group by date(created_at);
+    group by month(created_at), year(created_at);
 end &&
 DELIMITER &&
 
 -- Total Amount By Year
+
+DELIMITER &&
+create procedure statitic_total_amount_by_year(
+    year_in int
+)
+begin
+    select year(created_at), sum(total_amount)
+    from Invoice
+    where year(created_at) = year_in
+    group by year(created_at);
+end &&
+DELIMITER &&

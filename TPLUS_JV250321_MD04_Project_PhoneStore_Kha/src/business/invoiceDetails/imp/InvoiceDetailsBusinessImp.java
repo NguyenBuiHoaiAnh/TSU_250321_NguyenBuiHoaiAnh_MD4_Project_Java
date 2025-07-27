@@ -33,4 +33,16 @@ public class InvoiceDetailsBusinessImp implements InvoiceDetailsBusiness {
     public List<StatiticInvoice> statiticTotalAmountByDate(LocalDate date) {
         return invoiceDetailsDAO.statiticTotalAmountByDate(date);
     }
+
+    // Statitic Total Amount By Month
+    @Override
+    public List<StatiticInvoice> statiticTotalAmountByMonth(int month, int year) {
+        return invoiceDetailsDAO.statiticTotalAmountByMonth(month, year);
+    }
+
+    // Statitic Total Amount By Year
+    @Override
+    public List<StatiticInvoice> statiticTotalAmountByYear(int year) {
+        return invoiceDetailsDAO.statiticTotalAmountByYear(year);
+    }
 }

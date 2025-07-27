@@ -18,5 +18,9 @@ public interface InvoiceDetailsDAO {
     List<StatiticInvoice> statiticTotalAmountByDate(LocalDate date);
 
     // Statitic Total Amount By Month
-    List<StatiticInvoice> statiticTotalAmountByMonth(int month);
+    List<StatiticInvoice> statiticTotalAmountByMonth(int month, int year);
+
+    // Statitic Total Amount By Year
+    List<StatiticInvoice> statiticTotalAmountByYear(int year);
+
 }

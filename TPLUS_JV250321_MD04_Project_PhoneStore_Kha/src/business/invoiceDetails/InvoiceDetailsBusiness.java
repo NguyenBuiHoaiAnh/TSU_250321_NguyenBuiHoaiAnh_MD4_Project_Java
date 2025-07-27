@@ -16,4 +16,9 @@ public interface InvoiceDetailsBusiness {
     // Statitic TotalAmount By Day
     List<StatiticInvoice> statiticTotalAmountByDate(LocalDate date);
 
+    // Statitic TotalAmount By Month
+    List<StatiticInvoice> statiticTotalAmountByMonth(int month, int year);
+
+    // Statitic TotalAmount By Year
+    List<StatiticInvoice> statiticTotalAmountByYear(int year);
 }
